@@ -1,6 +1,6 @@
 # diagnostic_logger
 
-TODO: Write a description here
+Proof of concept for a thread-safe logger. This is an experimental shard and should not be used in production.
 
 ## Installation
 
@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      diagnostic_logger:
-       github: your-github-user/diagnostic_logger
+       github: lbarasti/diagnostic_logger
    ```
 
 2. Run `shards install`
@@ -18,9 +18,11 @@ TODO: Write a description here
 
 ```crystal
 require "diagnostic_logger"
+
+logger = DiagnosticLogger.new("my-component")
+logger.info("hello world") # logs "2019-11-14 02:11:12 UTC [INFO] my-component:main> hello world"
 ```
 
-TODO: Write usage instructions here
 
 ## Development
 

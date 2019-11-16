@@ -1,0 +1,6 @@
+logger:
+  level: INFO
+  appender:
+    name: FILE
+    class: FileAppender
+    file: app.logs

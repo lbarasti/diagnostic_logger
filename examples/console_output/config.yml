@@ -1,0 +1,5 @@
+logger:
+  level: INFO
+  appender:
+    name: STDOUT
+    class: ConsoleAppender
