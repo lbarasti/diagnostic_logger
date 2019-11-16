@@ -3,13 +3,7 @@ require "./lib/version"
 require "./lib/config"
 
 class DiagnosticLogger
-  private alias Message = {
-    timestamp: Time,
-    msg: String,
-    fiber_name: String?,
-    level: ::Logger::Severity,
-    name: String?
-  }
+  private alias Message = {timestamp: Time, msg: String, fiber_name: String?, level: ::Logger::Severity, name: String?}
   private Input = Channel(Message).new
 
   spawn do
@@ -32,6 +26,7 @@ class DiagnosticLogger
   def self.io # lazy loading the appender for better testability
     @@io ||= Config.load_appender
   end
+
   def self.level
     @@level ||= Config.load_level
   end

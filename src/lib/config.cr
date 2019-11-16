@@ -9,6 +9,7 @@ module Config
     log_filepath = data["logger"]["appender"]["file"].as_s
     FileAppender.new(log_filepath, "a")
   end
+
   def self.load_level(config : String = File.read(ConfigFile))
     data = YAML.parse config
     Logger::Severity.parse(data["logger"]["level"].as_s)

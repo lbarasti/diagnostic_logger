@@ -1,6 +1,7 @@
 require "./spec_helper"
 
 TestIO = IO::Memory.new
+
 class DiagnosticLogger
   # override the default appender
   def self.io
