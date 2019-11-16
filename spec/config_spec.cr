@@ -1,5 +1,6 @@
 require "./spec_helper"
 
+alias Config = DiagnosticLogger::Config
 describe Config do
   it "supports File appenders" do
     appender = Config.load_appender("logger:\n  appender:\n    class: FileAppender\n    file: logs")
