@@ -1,13 +1,26 @@
 require "yaml"
 require "logger"
-require "./file_appender"
+require "./appenders"
 
 module Config
+  class UnknownAppender < Exception
+    def initialize(clazz)
+      super("Unknown logger.appender.class #{clazz}")
+    end
+  end
+
   ConfigFile = "config.yml" # point at top-level configuration file
   def self.load_appender(config : String = File.read(ConfigFile))
     data = YAML.parse config
-    log_filepath = data["logger"]["appender"]["file"].as_s
-    FileAppender.new(log_filepath, "a")
+    appender = data["logger"]["appender"]
+    case appender["class"].as_s
+    when "FileAppender"
+      log_filepath = appender["file"].as_s
+      FileAppender.new(log_filepath, "a")
+    when "ConsoleAppender"
+      ConsoleAppender.new(1, blocking: (LibC.isatty(1)) == 0)
+    else raise UnknownAppender.new(appender["class"])
+    end
   end
 
   def self.load_level(config : String = File.read(ConfigFile))

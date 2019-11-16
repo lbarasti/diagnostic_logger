@@ -2,7 +2,7 @@ logger:
   level: INFO
   appender:
     name: FILE
-    class: FileAppender
+    class: FileAppender # | ConsoleAppender
     file: app.log
     # immediate_flush: true
     # formatter: [%date{ISO8601}] [%level] [%logger] [%thread] [%X{akkaSource}] - %msg%n</pattern>
