@@ -1,0 +1,11 @@
+logger:
+  level: INFO
+  appender:
+    name: FILE
+    class: FileAppender
+    file: app.log
+    # immediate_flush: true
+    # formatter: [%date{ISO8601}] [%level] [%logger] [%thread] [%X{akkaSource}] - %msg%n</pattern>
+  # severity:
+  #   *: DEBUG
+  #   My::Class: INFO

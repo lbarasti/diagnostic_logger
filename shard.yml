@@ -2,7 +2,7 @@ name: diagnostic_logger
 version: 0.1.0
 
 authors:
-  - lorenzo.barasti <lbarasti@users.noreply.github.com>
+  - lbarasti
 
 crystal: 0.31.1
 
