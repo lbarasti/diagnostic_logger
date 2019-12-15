@@ -3,7 +3,14 @@ require "./lib/version"
 require "./lib/config"
 
 class DiagnosticLogger
-  private alias Message = {timestamp: Time, msg: String, fiber_name: String?, level: ::Logger::Severity, name: String?}
+  private alias Message = {
+    timestamp: Time,
+    msg: String,
+    fiber_name: String?,
+    level: ::Logger::Severity,
+    name: String?,
+    pid: Int32
+  }
   private Input = Channel(Message).new
 
   spawn do
@@ -16,10 +23,15 @@ class DiagnosticLogger
   end
 
   def self.write(message)
-    io << "#{message[:timestamp]} " <<
-      "[#{message[:level]}] " <<
-      "#{message[:name]}:#{message[:fiber_name]}> #{message[:msg]}" <<
-      "\n"
+    io << pattern % {
+      date: message[:timestamp],
+      level: message[:level],
+      logger: message[:name],
+      fiber: message[:fiber_name],
+      msg: message[:msg],
+      pid: message[:pid]
+    }
+    io << "\n"
     io.flush
   end
 
@@ -29,6 +41,10 @@ class DiagnosticLogger
 
   def self.level
     @@level ||= Config.load_level
+  end
+
+  def self.pattern
+    @@pattern ||= Config.load_pattern
   end
 
   {% for name in ::Logger::Severity.constants %}
@@ -42,6 +58,7 @@ class DiagnosticLogger
         fiber_name: Fiber.current.name,
         level:      Logger::{{name.id}},
         name:       @name,
+        pid:        Process.pid,
       })
     end
   {% end %}

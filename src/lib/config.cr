@@ -10,6 +10,8 @@ class DiagnosticLogger
       end
     end
 
+    DefaultPattern = "%{date} [%{level}] %{logger}:%{fiber}> %{msg}"
+
     ConfigFile = "config.yml" # point at top-level configuration file
     def self.load_appender(config : String = File.read(ConfigFile))
       data = YAML.parse config
@@ -27,6 +29,14 @@ class DiagnosticLogger
     def self.load_level(config : String = File.read(ConfigFile))
       data = YAML.parse config
       Logger::Severity.parse(data["logger"]["level"].as_s)
+    end
+
+    def self.load_pattern(config : String = File.read(ConfigFile))
+      data = YAML.parse config
+      appender = data["logger"]["appender"]?
+      appender && appender["pattern"]? ?
+        appender["pattern"].as_s :
+        DefaultPattern
     end
   end
 end

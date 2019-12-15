@@ -4,8 +4,9 @@ logger:
     name: FILE
     class: FileAppender # | ConsoleAppender
     file: app.log
+    # pattern supports the following keys: date, level, pid, logger, fiber, msg
+    pattern: "[%{date}] [%{level}] [%{logger}] [%{fiber}] - %{msg}"
     # immediate_flush: true
-    # formatter: [%date{ISO8601}] [%level] [%logger] [%thread] [%X{akkaSource}] - %msg%n</pattern>
   # severity:
   #   *: DEBUG
   #   My::Class: INFO

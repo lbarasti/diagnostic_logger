@@ -7,6 +7,9 @@ class DiagnosticLogger
   def self.io
     TestIO
   end
+  def self.pattern
+    "%{date} [%{level}]-[%{logger}--%{fiber}]: %{msg}"
+  end
 end
 
 describe DiagnosticLogger do
@@ -38,6 +41,13 @@ describe DiagnosticLogger do
     DiagnosticLogger.new("test-1").debug("hello world")
     Fiber.yield
     TestIO.to_s.should eq("")
+    TestIO.clear
+  end
+
+  it "supports custom formatters" do
+    DiagnosticLogger.new("test-1").warn("hello world")
+    Fiber.yield
+    TestIO.to_s.should contain(" [WARN]-[test-1--main]: hello world")
     TestIO.clear
   end
 end
