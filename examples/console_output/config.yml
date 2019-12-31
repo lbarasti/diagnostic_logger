@@ -1,5 +1,8 @@
 logger:
   level: INFO
+  batch:
+    size: 100
+    interval: 0.5
   appender:
-    name: STDOUT
     class: ConsoleAppender
+  pattern: "%{date}: [%{level}] %{pid}>%{fiber}>%{logger} - %{msg}"
