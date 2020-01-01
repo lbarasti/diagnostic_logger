@@ -4,8 +4,9 @@ require "./lib/config"
 require "./lib/channel_util"
 
 class DiagnosticLogger
+  InputBufferSize = 1024 # just an arbitrary, non-zero buffer size. See https://github.com/lbarasti/diagnostic_logger/issues/2
   private alias Message = {timestamp: Time, msg: String, fiber_name: String?, level: ::Logger::Severity, name: String?, pid: Int32}
-  private Input = Channel(Message).new
+  private Input = Channel(Message).new(InputBufferSize)
   ConfigFile = "config.yml" # point to top-level configuration file
   @@config : Config = Config.load(File.exists?(ConfigFile) ? File.read(ConfigFile) : "")
 
