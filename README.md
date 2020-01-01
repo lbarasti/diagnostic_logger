@@ -1,6 +1,10 @@
+[![GitHub release](https://img.shields.io/github/release/lbarasti/diagnostic_logger.svg)](https://github.com/lbarasti/diagnostic_logger/releases)
+![Build Status](https://github.com/lbarasti/diagnostic_logger/workflows/Crystal%20CI/badge.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 # diagnostic_logger
 
-Proof of concept for a thread-safe logger. This is an experimental shard and should not be used in production.
+A thread-safe, configurable logger for the Crystal Language. This shard is still under active development, and has not been used at scale, yet.
 
 ## Installation
 
