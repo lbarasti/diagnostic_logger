@@ -111,4 +111,4 @@ You can also manually run the examples under `/examples` - remember to `cd` into
 
 ## Contributors
 
-- [lorenzo.barasti](https://github.com/your-github-user) - creator and maintainer
+- [lbarasti](https://github.com/lbarasti) - creator and maintainer
