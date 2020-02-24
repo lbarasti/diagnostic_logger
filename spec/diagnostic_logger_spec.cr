@@ -15,7 +15,7 @@ end
 
 describe DiagnosticLogger do
   it "has a version" do
-    DiagnosticLogger::VERSION.should eq "1.0.0"
+    DiagnosticLogger::VERSION.should be_a String
   end
 
   it "can be initialized" do
