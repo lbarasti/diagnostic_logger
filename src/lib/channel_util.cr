@@ -1,11 +1,20 @@
 class DiagnosticLogger
   module ChannelUtil
-    private def self.timer(span : Time::Span, name = "timer") : Channel(Nil)
-      Channel(Nil).new(1).tap { |done|
+    def self.every(t : Time::Span, name = nil, terminate = Channel(Time).new, &block : -> T) : Channel(T) forall T
+      Channel(T).new.tap { |values|
         spawn(name: name) do
-          sleep span
-          done.send nil
-          done.close
+          loop do
+            select
+            when timeout(t)
+              values.send block.call
+            when time = terminate.receive
+              break
+            end
+          rescue Channel::ClosedError
+            break
+          end
+        ensure
+          values.close()
         end
       }
     end
@@ -16,32 +25,29 @@ class DiagnosticLogger
       # TODO: assert on `size` and `interval`
       Channel(Enumerable(T)).new.tap { |out_stream|
         memory = Array(T).new(size)
+        tick = every(interval) { nil }
+        sent = false
         spawn do
           loop do
-            timeout = timer(interval)
-            sent = false
-            loop do
-              select
-              when v = in_stream.receive
-                memory << v
-                if memory.size >= size
-                  out_stream.send(memory.dup)
-                  memory.clear
-                  sent = true
-                end
-              when timeout.receive
-                unless sent
-                  out_stream.send(memory.dup)
-                  memory.clear
-                end
-                break
+            select
+            when v = in_stream.receive
+              memory << v
+              if memory.size >= size
+                out_stream.send(memory.dup)
+                memory.clear
+                sent = true
               end
+            when tick.receive
+              unless sent
+                out_stream.send(memory.dup)
+                memory.clear
+              end
+              sent = false
             end
-          rescue Channel::ClosedError
-            out_stream.send(memory.dup)
-            out_stream.close
-            break
           end
+        rescue Channel::ClosedError
+          out_stream.send(memory.dup)
+          out_stream.close
         end
       }
     end

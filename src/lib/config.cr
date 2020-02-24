@@ -41,7 +41,7 @@ class DiagnosticLogger
       end
     end
 
-    private record BatchConfig, size : Int32, interval : Time::Span do
+    protected record BatchConfig, size : Int32, interval : Time::Span do
       YAML.mapping(
         size: Int32,
         interval: {
