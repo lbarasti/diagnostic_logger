@@ -1,5 +1,5 @@
 name: diagnostic_logger
-version: 1.0.1
+version: 2.0.0
 
 authors:
   - lbarasti
@@ -7,6 +7,6 @@ authors:
 description: |
   A thread-safe, configurable logger for the Crystal Language.
 
-crystal: 0.33.0
+crystal: 0.35.1
 
 license: MIT
